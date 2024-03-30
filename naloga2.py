@@ -26,7 +26,7 @@ def konvolucija(slika, jedro):
             rezultat[i, j] = np.sum(območje * jedro)
 
     #če je to zakometirano se slika ne prikaže
-    #rezultat = cv.normalize(rezultat, None, 0, 255, cv.NORM_MINMAX).astype('uint8')
+    rezultat = cv.normalize(rezultat, None, 0, 255, cv.NORM_MINMAX).astype('uint8')
 
     return rezultat
 
@@ -55,29 +55,59 @@ def filtriraj_sobel_vertikalno(slika):
                             [ 1,  2,  1]], dtype=np.float32)
     return konvolucija(slika, sobel_jedro)
 
-if __name__ == '__main__':
-    slika1 = np.array([[1, 0, 0, 0],
-                    [0, 2, 0, 0],
-                    [0, 0, 3, 0],
-                    [0, 0, 0, 4]], dtype=np.float32)
-    
-    ###########
-    # 1 0 0 0 #
-    # 0 2 0 0 #
-    # 0 0 3 0 #
-    # 0 0 0 4 #
-    ###########
-    jedro = np.array([[1, 1, 1],
-                     [1, 1, 1],
-                     [1, 1, 1]])
-    
-    slika_konvolucija = konvolucija(slika1, jedro)
-    slika_gauss = filtriraj_z_gaussovim_jedrom(slika1, 1.4)
-    slika_sobel = filtriraj_sobel_vertikalno(slika1)
+def filtriraj_sobel_horizontalno(slika):
+    sobel_jedro = np.array([[-1, 0, 1],
+                            [-2, 0, 2],
+                            [-1, 0, 1]], dtype=np.float32)
+    return konvolucija(slika, sobel_jedro)
 
-    # Prikažemo izvirno sliko
-    print("Original:\n {}".format(slika1))
-    print("Konvolucija:\n {}".format(slika_konvolucija))
-    print("Gauss:\n {}".format(slika_gauss))  
-    print("Sobel vertical:\n {}".format(slika_sobel))   
-    pass
+
+if __name__ == '__main__':
+    slika = cv.imread("images/lenna.png")
+    if slika is not None:
+        slika1 = np.array([[1, 0, 0, 0],
+                        [0, 2, 0, 0],
+                        [0, 0, 3, 0],
+                        [0, 0, 0, 4]], dtype=np.float32)
+        
+        ###########
+        # 1 0 0 0 #
+        # 0 2 0 0 #
+        # 0 0 3 0 #
+        # 0 0 0 4 #
+        ###########
+        jedro = np.array([[1, 1, 1],
+                        [1, 1, 1],
+                        [1, 1, 1]])
+        
+        slika_konvolucija = konvolucija(slika1, jedro)
+        slika_gauss = filtriraj_z_gaussovim_jedrom(slika1, 1.4)
+        slika_sobel_vertical = filtriraj_sobel_vertikalno(slika1)
+        slika_sobel_horizontal = filtriraj_sobel_horizontalno(slika1)
+
+        # Prikažemo izvirno sliko
+        print("Original:\n {}".format(slika1))
+        print("Konvolucija:\n {}".format(slika_konvolucija))
+        print("Gauss:\n {}".format(slika_gauss))  
+        print("Sobel vertical:\n {}".format(slika_sobel_vertical))
+        print("Sobel horizontal:\n {}".format(slika_sobel_horizontal))
+
+
+        kanali = cv.split(slika)
+        filtrirani_kanali_gauss = [filtriraj_z_gaussovim_jedrom(kanal, 1.4) for kanal in kanali]
+        filtrirana_slika_gauss = cv.merge(filtrirani_kanali_gauss)    
+        cv.imshow('Filtrirana Slika Gauss', filtrirana_slika_gauss)
+
+        filtrirani_kanali = [filtriraj_sobel_vertikalno(kanal) for kanal in kanali]
+        filtrirana_slika = cv.merge(filtrirani_kanali)
+
+        mask = np.any(filtrirana_slika > 120, axis=-1)
+        filtrirana_slika[mask] = [255, 0, 0]
+        print("######################")
+
+        cv.imshow('Originalna Slika', slika)
+        cv.imshow('Filtrirana Slika Sobel', filtrirana_slika)
+       
+        cv.waitKey(0)
+        cv.destroyAllWindows()  
+        pass
