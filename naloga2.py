@@ -31,8 +31,23 @@ def konvolucija(slika, jedro):
     return rezultat
 
 def filtriraj_z_gaussovim_jedrom(slika,sigma):
-    '''Filtrira sliko z Gaussovim jedrom..'''
-    pass
+    slikaCopy = np.copy(slika)
+    velikost_jedra = int((2*sigma)*2 + 1)
+
+    #srednji index jedra
+    k = int(velikost_jedra / 2  - 0.5 )
+
+    jedro = np.zeros((velikost_jedra, velikost_jedra), dtype=np.float32)
+
+    for i in range(velikost_jedra):
+        for j in range(velikost_jedra):
+            x = i - k
+            y = j - k
+            jedro[i, j] = (1 / (2 * np.pi * sigma**2)) * np.exp(-(x**2 + y**2) / (2 * sigma**2))
+
+    # Normalizacija jedra - vsota vseh elementov je enaka 1, če je to zakomentirani se slika ne prikaže       
+    #jedro /= jedro.sum()
+    return konvolucija(slikaCopy, jedro)
 
 def filtriraj_sobel_smer(slika):
     '''Filtrira sliko z Sobelovim jedrom in označi gradiente v orignalni sliki glede na ustrezen pogoj.'''
@@ -55,8 +70,10 @@ if __name__ == '__main__':
                      [1, 1, 1]])
     
     slika_konvolucija = konvolucija(slika1, jedro)
-    
+    slika_gauss = filtriraj_z_gaussovim_jedrom(slika1, 1.4)
+
     # Prikažemo izvirno sliko
     print("Original:\n {}".format(slika1))
-    print("Konvolucija:\n {}".format(slika_konvolucija))     
+    print("Konvolucija:\n {}".format(slika_konvolucija))
+    print("Gauss:\n {}".format(slika_gauss))     
     pass
