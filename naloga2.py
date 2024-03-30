@@ -49,9 +49,11 @@ def filtriraj_z_gaussovim_jedrom(slika,sigma):
     #jedro /= jedro.sum()
     return konvolucija(slikaCopy, jedro)
 
-def filtriraj_sobel_smer(slika):
-    '''Filtrira sliko z Sobelovim jedrom in označi gradiente v orignalni sliki glede na ustrezen pogoj.'''
-    pass
+def filtriraj_sobel_vertikalno(slika):
+    sobel_jedro = np.array([[-1, -2, -1],
+                            [ 0,  0,  0],
+                            [ 1,  2,  1]], dtype=np.float32)
+    return konvolucija(slika, sobel_jedro)
 
 if __name__ == '__main__':
     slika1 = np.array([[1, 0, 0, 0],
@@ -71,9 +73,11 @@ if __name__ == '__main__':
     
     slika_konvolucija = konvolucija(slika1, jedro)
     slika_gauss = filtriraj_z_gaussovim_jedrom(slika1, 1.4)
+    slika_sobel = filtriraj_sobel_vertikalno(slika1)
 
     # Prikažemo izvirno sliko
     print("Original:\n {}".format(slika1))
     print("Konvolucija:\n {}".format(slika_konvolucija))
-    print("Gauss:\n {}".format(slika_gauss))     
+    print("Gauss:\n {}".format(slika_gauss))  
+    print("Sobel vertical:\n {}".format(slika_sobel))   
     pass
