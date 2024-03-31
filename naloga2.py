@@ -26,7 +26,7 @@ def konvolucija(slika, jedro):
             rezultat[i, j] = np.sum(območje * jedro)
 
     #če je to zakometirano se slika ne prikaže
-    rezultat = cv.normalize(rezultat, None, 0, 255, cv.NORM_MINMAX).astype('uint8')
+    #rezultat = cv.normalize(rezultat, None, 0, 255, cv.NORM_MINMAX).astype('uint8')
 
     return rezultat
 
