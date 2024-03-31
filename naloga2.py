@@ -63,7 +63,7 @@ def filtriraj_sobel_horizontalno(slika):
 
 
 if __name__ == '__main__':
-    slika = cv.imread("images/lenna.png")
+    slika = cv.imread("images/lenna2.png")
     if slika is not None:
         slika1 = np.array([[1, 0, 0, 0],
                         [0, 2, 0, 0],
