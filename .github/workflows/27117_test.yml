@@ -15,11 +15,9 @@ jobs:
       - name: Preverba testov
         id: preveri_datoteke
         run: |
-          if compgen -G "tests/test_*.py" > /dev/null; then
-            echo "::set-output name=testi_obstajajo::true"
-          else
-            echo "::set-output name=testi_obstajajo::false"
+          if ! compgen -G "tests/test_*.py" > /dev/null; then
             echo "Testi niso najdeni" > napaka.txt
+          fi
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
