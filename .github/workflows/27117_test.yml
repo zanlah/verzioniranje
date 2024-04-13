@@ -8,8 +8,6 @@ on:
 jobs:
   preveri_teste:
     runs-on: ubuntu-latest
-    outputs:
-      testi_obstajajo: ${{ steps.preveri_datoteke.outputs.testi_obstajajo }}
     steps:
       - uses: actions/checkout@v3
       - name: Preverba testov
