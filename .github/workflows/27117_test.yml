@@ -11,7 +11,7 @@ jobs:
     outputs:
       testi: ${{ steps.check_files.outputs.testi }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Check for test scripts
         id: check_files
         run: |
@@ -26,7 +26,7 @@ jobs:
     if: ${{ needs.preveri_teste.outputs.testi == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python environment
         uses: actions/setup-python@v2
         with:
