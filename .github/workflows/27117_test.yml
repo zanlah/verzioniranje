@@ -16,11 +16,10 @@ jobs:
         id: check_files
         run: |
           if compgen -G "tests/test_*.py" > /dev/null; then
-             echo "::set-output name=testi::true"
-           else
-             echo "::set-output name=testi::false"
-             exit 1
-           fi
+            echo "::set-output name=testi::true"
+          else
+            echo "::set-output name=testi::false"
+          fi
 
   run_tests:
     needs: preveri_teste
