@@ -13,7 +13,9 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Run deployment script
+      - name: nastavi pravice
+        run: chmod +x zapakiraj_27117.sh
+      - name: deploy
         run: ./zapakiraj_27117.sh
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
