@@ -13,10 +13,10 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Build Docker image
+      - name: zgradim Docker image
         run: |
           docker build -t zanlah/filtriapp:${{ github.sha }} .
-      - name: Log in to DockerHub
+      - name: Prijava DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
