@@ -3,7 +3,7 @@ name: deploy
 on:
   workflow_run:
     workflows: ["testi"]
-    branches: [main]
+    branches: [master]
     types:
       - completed
 

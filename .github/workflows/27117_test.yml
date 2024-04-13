@@ -3,7 +3,7 @@ name: testi
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   preveri_teste:
