@@ -6,7 +6,7 @@ import numpy as np
 from naloga2 import konvolucija, filtriraj_z_gaussovim_jedrom, filtriraj_sobel_vertikalno, filtriraj_sobel_horizontalno
 
 def test_konvolucija():
-    test_image = np.array([[10, 20, 30, 40],
+    test_image = np.array([[1, 20, 30, 40],
                            [50, 60, 70, 80],
                            [90, 100, 110, 120],
                            [130, 140, 150, 160]], dtype=np.float32)
