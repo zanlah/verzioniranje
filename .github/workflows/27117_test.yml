@@ -1,0 +1,52 @@
+name: testi
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  preveri_teste:
+    runs-on: ubuntu-latest
+    outputs:
+      testi: ${{ steps.check_files.outputs.testi }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check for test scripts
+        id: check_files
+        run: |
+          if compgen -G "tests/test_*.py" > /dev/null; then
+             echo "::set-output name=testi::true"
+           else
+             echo "::set-output name=testi::false"
+             exit 1
+           fi
+
+  run_tests:
+    needs: preveri_teste
+    if: ${{ needs.preveri_teste.outputs.testi == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          pytest tests/
+        continue-on-error: true
+      - name: Capture errors
+        if: ${{ failure() }}
+        run: echo "Tests failed" > error.txt
+        continue-on-error: true
+      - name: Upload artifact if test fails
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: error-report
+          path: error.txt

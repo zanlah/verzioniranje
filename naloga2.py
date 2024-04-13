@@ -65,10 +65,10 @@ def filtriraj_sobel_horizontalno(slika):
 if __name__ == '__main__':
     slika = cv.imread("images/lenna2.png")
     if slika is not None:
-        slika1 = np.array([[1, 0, 0, 0],
-                        [0, 2, 0, 0],
-                        [0, 0, 3, 0],
-                        [0, 0, 0, 4]], dtype=np.float32)
+        slika1 = np.array([[10, 20, 30, 40],
+                           [50, 60, 70, 80],
+                           [90, 100, 110, 120],
+                           [130, 140, 150, 160]], dtype=np.float32)
         
         ###########
         # 1 0 0 0 #
@@ -76,9 +76,9 @@ if __name__ == '__main__':
         # 0 0 3 0 #
         # 0 0 0 4 #
         ###########
-        jedro = np.array([[1, 1, 1],
-                        [1, 1, 1],
-                        [1, 1, 1]])
+        jedro = np.array([[1, 0, -1],
+                       [2, 0, -2],
+                       [1, 0, -1]])
         
         slika_konvolucija = konvolucija(slika1, jedro)
         slika_gauss = filtriraj_z_gaussovim_jedrom(slika1, 1.4)
