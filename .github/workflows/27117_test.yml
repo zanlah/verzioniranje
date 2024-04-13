@@ -13,6 +13,7 @@ jobs:
       - name: Preverba testov
         id: preveri_datoteke
         run: |
+          touch napaka.txt 
           if ! compgen -G "tests/test_*.py" > /dev/null; then
             echo "Testi niso najdeni" > napaka.txt
           fi
